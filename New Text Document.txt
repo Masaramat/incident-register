@@ -1,0 +1,11 @@
+create or replace view item_distribution_view as
+select itd.id, group_id, group_name, item_id, item_desc, quantity, unit,
+     enterprise_id, enterprise_desc, dli_id, dli_name, fca_id, fca_name,
+     lga_id, lga_name, itd.username, full_name, lga as lga_of_user, date, verified_by, verified_date
+     from item_distribution itd left outer join groups on itd.group_id = groups.id
+     left outer join fca on groups.fca_id = fca.id
+    left outer join lga on fca.lga_id = lga.id
+     left outer join enterprise on groups.enterprise_id = enterprise.id
+    left outer join dli on enterprise.dli_id = dli.id
+     left outer join item on itd.item_id = item.id
+    left outer join application_user au on itd.username = au.username;
